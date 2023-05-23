@@ -56,7 +56,6 @@ router.delete('/:contactId', async (req, res, next) => {
 router.put('/:contactId', async (req, res, next) => {
   try {
     if (Object.keys(req.body).length !== 0) {
-      console.log('in if');
       const validationResult = schemaUpdate.validate(req.body);
 
       if (validationResult.error) {
