@@ -1,26 +1,19 @@
-const {
-  getContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateStatusContact,
-  updateContact,
-} = require('../service/contacts-db');
+const service = require('../service/contacts-db');
 const Contact = require('../service/schemas/contacts');
 const { schemaInsert, schemaUpdate } = require('../utils/validate');
 
-const getContactsController = async (req, res, next) => {
+const getAllContacts = async (req, res, next) => {
   try {
-    const data = await getContacts();
+    const data = await service.getContacts();
     res.status(200).json(data);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-const getContactByIdController = async (req, res, next) => {
+const getContactById = async (req, res, next) => {
   try {
-    const data = await getContactById(req.params.contactId);
+    const data = await service.getContactById(req.params.contactId);
 
     if (data) res.status(200).json(data);
     else res.status(404).json({ message: 'Not found' });
@@ -29,23 +22,23 @@ const getContactByIdController = async (req, res, next) => {
   }
 };
 
-const postRootController = async (req, res, next) => {
+const addContact = async (req, res, next) => {
   try {
     const validationResult = schemaInsert.validate(req.body);
 
     if (validationResult.error) {
       return res.status(400).json({ message: validationResult.error.details[0].message });
     }
-    const result = await addContact(req.body);
+    const result = await service.addContact(req.body);
     if (result) res.status(201).json(result);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-const deleteByContactIdController = async (req, res, next) => {
+const deleteByContactId = async (req, res, next) => {
   try {
-    const result = await removeContact(req.params.contactId);
+    const result = await service.removeContact(req.params.contactId);
     if (result > 0) res.status(200).json({ message: 'contact deleted' });
     else res.status(404).json({ message: 'Not found' });
   } catch (e) {
@@ -53,7 +46,7 @@ const deleteByContactIdController = async (req, res, next) => {
   }
 };
 
-const putByContactIdController = async (req, res, next) => {
+const updateContact = async (req, res, next) => {
   try {
     if (Object.keys(req.body).length !== 0) {
       const validationResult = schemaUpdate.validate(req.body);
@@ -61,7 +54,7 @@ const putByContactIdController = async (req, res, next) => {
       if (validationResult.error) {
         return res.status(400).json({ message: validationResult.error.details[0].message });
       }
-      const result = await updateContact(req.params.contactId, req.body);
+      const result = await service.updateContact(req.params.contactId, req.body);
       if (result) res.status(200).json(result);
       else res.status(404).json({ message: 'Not found' });
     } else res.status(400).json({ message: 'missing fields' });
@@ -79,10 +72,9 @@ const checkAllowedMethods = async (req, res, next) => {
   next();
 };
 
-const patchFavoriteController = async (req, res, next) => {
+const updateFavorite = async (req, res, next) => {
   const contactId = req.params.contactId;
   const { favorite } = req.body;
-  console.log('favorite', favorite);
   try {
     if (favorite) {
       const validationResult = schemaUpdate.validate({ favorite });
@@ -90,7 +82,8 @@ const patchFavoriteController = async (req, res, next) => {
         return res.status(400).json({ message: validationResult.error.details[0].message });
       }
       const body = { favorite: favorite.toLowerCase() === 'true' ? true : false };
-      const data = await updateStatusContact(contactId, body);
+
+      const data = await service.updateStatusContact(contactId, body);
 
       if (data) res.status(200).json(data);
       else res.status(404).json({ message: 'Not found' });
@@ -98,18 +91,14 @@ const patchFavoriteController = async (req, res, next) => {
   } catch (e) {
     res.status(404).json({ message: 'Not found' });
   }
-
-  // if (Object.keys(body).length !== 0 && Object.keys(body).includes("favorite")) {
-  //   const validationResult = schemaUpdate.validate(req.body);
-  // }
 };
 
 module.exports = {
-  getContactsController,
-  getContactByIdController,
-  postRootController,
-  deleteByContactIdController,
-  putByContactIdController,
+  getAllContacts,
+  getContactById,
+  addContact,
+  deleteByContactId,
+  updateContact,
   checkAllowedMethods,
-  patchFavoriteController,
+  updateFavorite,
 };
