@@ -8,16 +8,17 @@ const schemaInsert = Joi.object({
   }),
   email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
     'string.email': 'Invalid email',
-    'any.required': 'missing required "email" field',
   }),
 
   phone: Joi.string()
     .regex(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/)
-    .required()
+
     .messages({
       'string.pattern.base': 'Invalid phone number',
-      'any.required': 'missing required "phone" field',
     }),
+  favorite: Joi.bool().messages({
+    'boolean.base': 'A "favorite" must be true or false',
+  }),
 });
 
 const schemaUpdate = Joi.object({
@@ -34,6 +35,9 @@ const schemaUpdate = Joi.object({
     .messages({
       'string.pattern.base': 'Invalid phone number',
     }),
+  favorite: Joi.bool().messages({
+    'boolean.base': 'A "favorite" must be true or false',
+  }),
 });
 
 module.exports = { schemaInsert, schemaUpdate };

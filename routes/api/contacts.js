@@ -7,6 +7,7 @@ const {
   deleteByContactIdController,
   putByContactIdController,
   checkAllowedMethods,
+  patchFavoriteController,
 } = require('../../controllers/controllers');
 
 const router = express.Router();
@@ -22,5 +23,7 @@ router.post('/', postRootController);
 router.delete('/:contactId', deleteByContactIdController);
 
 router.put('/:contactId', putByContactIdController);
+
+router.patch('/:contactId/favorite', patchFavoriteController);
 
 module.exports = router;
