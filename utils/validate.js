@@ -6,7 +6,7 @@ const schemaInsert = Joi.object({
     'string.max': `"name" should have a maximum length of {#limit}`,
     'any.required': 'missing required "name" field',
   }),
-  email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
+  email: Joi.string().email({ minDomainSegments: 2 }).messages({
     'string.email': 'Invalid email',
   }),
 
