@@ -12,7 +12,7 @@ const getContacts = async () => {
     const data = await Contact.find();
 
     return data || [];
-  } catch (error) {
+  } catch (e) {
     console.error(e.message);
     throw e;
   }
@@ -65,7 +65,7 @@ const removeContact = async contactId => {
  * {favorite} - is favorite contact,
  * }
  *
- * @return contact = {id,name,email,phone}
+ * @return contact = {id,name,email,phone,favorite}
  */
 
 const addContact = async body => {
@@ -91,7 +91,7 @@ const addContact = async body => {
  * {phone} - contact phone,
  * {favorite} - is favorite contact,
  * }
- * @return contact = {id,name,email,phone} or null (if not found)
+ * @return contact = {id,name,email,phone} or throw error
  */
 const updateContact = async (contactId, body) => {
   try {
@@ -110,7 +110,7 @@ const updateContact = async (contactId, body) => {
  @param body {
  * {favorite} - is favorite contact,
  * }
- * @return contact = {id,name,email,phone,favorite} 
+ * @return contact = {id,name,email,phone,favorite} or throw error
  */
 
 const updateStatusContact = async (contactId, body) => {
