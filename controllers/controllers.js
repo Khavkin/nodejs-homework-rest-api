@@ -1,5 +1,5 @@
 const service = require('../service/contacts-db');
-const Contact = require('../service/schemas/contacts');
+
 const { schemaInsert, schemaUpdate } = require('../utils/validate');
 
 const getAllContacts = async (req, res, next) => {
@@ -81,7 +81,8 @@ const updateFavorite = async (req, res, next) => {
       if (validationResult.error) {
         return res.status(400).json({ message: validationResult.error.details[0].message });
       }
-      const body = { favorite: favorite.toLowerCase() === 'true' ? true : false };
+
+      const body = { favorite };
 
       const data = await service.updateStatusContact(contactId, body);
 
