@@ -1,3 +1,4 @@
+const { isValidObjectId } = require('mongoose');
 const service = require('../service/contacts-db');
 
 const { schemaInsert, schemaUpdate } = require('../utils/validate');
@@ -13,6 +14,9 @@ const getAllContacts = async (req, res, next) => {
 
 const getContactById = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.contactId))
+      return res.status(400).json({ message: 'Invalid contactId' });
+
     const data = await service.getContactById(req.params.contactId);
 
     if (data) res.status(200).json(data);
@@ -38,6 +42,9 @@ const addContact = async (req, res, next) => {
 
 const deleteByContactId = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.contactId))
+      return res.status(400).json({ message: 'Invalid contactId' });
+
     const result = await service.removeContact(req.params.contactId);
     if (result > 0) res.status(200).json({ message: 'contact deleted' });
     else res.status(404).json({ message: 'Not found' });
@@ -48,6 +55,9 @@ const deleteByContactId = async (req, res, next) => {
 
 const updateContact = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.contactId))
+      return res.status(400).json({ message: 'Invalid contactId' });
+
     if (Object.keys(req.body).length !== 0) {
       const validationResult = schemaUpdate.validate(req.body);
 
@@ -75,6 +85,8 @@ const checkAllowedMethods = async (req, res, next) => {
 const updateFavorite = async (req, res, next) => {
   const contactId = req.params.contactId;
   const { favorite } = req.body;
+  if (!isValidObjectId(contactId)) return res.status(400).json({ message: 'Invalid contactId' });
+
   try {
     if (favorite) {
       const validationResult = schemaUpdate.validate({ favorite });
