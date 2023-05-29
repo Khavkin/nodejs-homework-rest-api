@@ -42,7 +42,6 @@ const getContactById = async contactId => {
  * @param {contactId} - id for remove
  * @return return count of deleted contacts
  */
-
 const removeContact = async contactId => {
   try {
     const data = await Contact.deleteOne({ _id: contactId });
@@ -67,7 +66,6 @@ const removeContact = async contactId => {
  *
  * @return contact = {id,name,email,phone,favorite}
  */
-
 const addContact = async body => {
   const { name, email, phone, favorite } = body;
   const newContact = { name, email, phone, favorite };
@@ -86,7 +84,7 @@ const addContact = async body => {
  * Update contact and return updated contact
  *
  @param body {
- * {name} (required) - contact name,
+ * {name}  - contact name,
  * {email} - contact email,
  * {phone} - contact phone,
  * {favorite} - is favorite contact,
@@ -95,7 +93,7 @@ const addContact = async body => {
  */
 const updateContact = async (contactId, body) => {
   try {
-    const response = await Contact.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await Contact.findOneAndReplace({ _id: contactId }, body, { new: true });
     return response;
   } catch (e) {
     console.error(e.message);
@@ -112,7 +110,6 @@ const updateContact = async (contactId, body) => {
  * }
  * @return contact = {id,name,email,phone,favorite} or throw error
  */
-
 const updateStatusContact = async (contactId, body) => {
   try {
     const response = await Contact.findOneAndUpdate({ _id: contactId }, body, { new: true });
