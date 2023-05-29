@@ -1,4 +1,4 @@
-const Contact = require('./schemas/contacts');
+const { ContactModel } = require('./schemas/');
 
 /***
  * function getContacts
@@ -9,7 +9,7 @@ const Contact = require('./schemas/contacts');
 
 const getContacts = async () => {
   try {
-    const data = await Contact.find();
+    const data = await ContactModel.find();
 
     return data || [];
   } catch (e) {
@@ -27,7 +27,7 @@ const getContacts = async () => {
  */
 const getContactById = async contactId => {
   try {
-    const data = await Contact.findById(contactId);
+    const data = await ContactModel.findById(contactId);
     return data;
   } catch (e) {
     console.error(e.message);
@@ -44,7 +44,7 @@ const getContactById = async contactId => {
  */
 const removeContact = async contactId => {
   try {
-    const data = await Contact.deleteOne({ _id: contactId });
+    const data = await ContactModel.deleteOne({ _id: contactId });
 
     return data.deletedCount;
   } catch (e) {
@@ -71,7 +71,7 @@ const addContact = async body => {
   const newContact = { name, email, phone, favorite };
 
   try {
-    const data = await Contact.create(newContact);
+    const data = await ContactModel.create(newContact);
     return data;
   } catch (e) {
     console.error(e.message);
@@ -93,7 +93,7 @@ const addContact = async body => {
  */
 const updateContact = async (contactId, body) => {
   try {
-    const response = await Contact.findOneAndReplace({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndReplace({ _id: contactId }, body, { new: true });
     return response;
   } catch (e) {
     console.error(e.message);
@@ -112,7 +112,7 @@ const updateContact = async (contactId, body) => {
  */
 const updateStatusContact = async (contactId, body) => {
   try {
-    const response = await Contact.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, { new: true });
 
     return response;
   } catch (e) {

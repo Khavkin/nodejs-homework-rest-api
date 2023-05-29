@@ -17,10 +17,14 @@ const contact = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { collection: 'contacts' }
 );
 
-const Contact = mongoose.model('contact', contact);
+const ContactModel = mongoose.model('contact', contact);
 
-module.exports = Contact;
+module.exports = ContactModel;
