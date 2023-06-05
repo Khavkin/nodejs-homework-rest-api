@@ -1,2 +1,4 @@
 const checkId = require('./checkId');
-module.exports = { checkId };
+const handleMangooseError = require('./handleMangooseError');
+
+module.exports = { checkId, handleMangooseError };

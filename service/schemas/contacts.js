@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { handleMangooseError } = require('../../middlewares');
 const Schema = mongoose.Schema;
 
 const contact = new Schema(
@@ -24,6 +25,8 @@ const contact = new Schema(
   },
   { collection: 'contacts' }
 );
+
+contact.post('save', handleMangooseError);
 
 const ContactModel = mongoose.model('contact', contact);
 

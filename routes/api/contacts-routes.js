@@ -1,7 +1,11 @@
 const express = require('express');
 
 const { contactsControllers } = require('../../controllers');
-const { schemaInsert, schemaUpdateFavorite, schemaUpdate } = require('../../utils/validate');
+const {
+  schemaInsert,
+  schemaUpdateFavorite,
+  schemaUpdate,
+} = require('../../schemas/contactsSchema');
 const { validateBody } = require('../../decorators');
 const { checkId } = require('../../middlewares');
 

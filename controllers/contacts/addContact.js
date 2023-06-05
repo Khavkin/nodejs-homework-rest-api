@@ -1,6 +1,6 @@
 const { httpError } = require('../../helpers');
 const { contactsService } = require('../../service');
-const { schemaInsert } = require('../../utils/validate');
+const { schemaInsert } = require('../../schemas/contactsSchema');
 
 const addContact = async (req, res, next) => {
   try {

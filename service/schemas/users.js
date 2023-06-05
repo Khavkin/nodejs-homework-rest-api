@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { handleMangooseError } = require('../../middlewares');
 const Schema = mongoose.Schema;
 
 const user = new Schema(
@@ -24,6 +25,8 @@ const user = new Schema(
   },
   { collection: 'users' }
 );
+
+user.post('save', handleMangooseError);
 
 const UserModel = mongoose.model('user', user);
 
