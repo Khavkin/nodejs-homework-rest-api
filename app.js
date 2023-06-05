@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const contactsRouter = require('./routes/api/contacts-routes');
-const usersRouter = require('./routes/users-routes');
+const authRouter = require('./routes/api/auth-routes');
 
 const app = express();
 
@@ -15,10 +15,10 @@ app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
 
-app.use('/users', usersRouter);
+app.use('/users', authRouter);
 
 app.use((req, res) => {
-  console.log(req);
+  //console.log(req.url);
   res.status(404).json({ message: 'Not found' });
 });
 

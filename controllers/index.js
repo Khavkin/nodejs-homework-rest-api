@@ -3,4 +3,5 @@ const usersControllers = require('./users');
 
 module.exports = {
   contactsControllers,
+  usersControllers,
 };
