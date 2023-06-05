@@ -1,16 +1,14 @@
 const { isValidObjectId } = require('mongoose');
 const { contactsService } = require('../../service');
+const { httpError } = require('../../helpers');
 
 const deleteByContactId = async (req, res, next) => {
   try {
-    if (!isValidObjectId(req.params.contactId))
-      return res.status(400).json({ message: 'Invalid contactId' });
-
     const result = await contactsService.removeContact(req.params.contactId);
     if (result > 0) res.status(200).json({ message: 'contact deleted' });
-    else res.status(404).json({ message: 'Not found' });
+    else next(httpError(404));
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(httpError(500, e.message));
   }
 };
 

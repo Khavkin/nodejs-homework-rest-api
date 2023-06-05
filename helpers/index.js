@@ -1,3 +1,3 @@
-const validateBody = require('./validateBody');
+const httpError = require('./httpError');
 
-module.exports = { validateBody };
+module.exports = { httpError };

@@ -1,17 +1,15 @@
 const { isValidObjectId } = require('mongoose');
 const { contactsService } = require('../../service');
+const { httpError } = require('../../helpers');
 
 const getContactById = async (req, res, next) => {
   try {
-    if (!isValidObjectId(req.params.contactId))
-      return res.status(400).json({ message: 'Invalid contactId' });
-
     const data = await contactsService.getContactById(req.params.contactId);
 
     if (data) res.status(200).json(data);
-    else res.status(404).json({ message: 'Not found' });
+    else next(httpError(404));
   } catch (e) {
-    res.status(400).json({ message: e.message });
+    next(httpError(500, e.message));
   }
 };
 

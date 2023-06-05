@@ -93,7 +93,7 @@ const addContact = async body => {
  */
 const updateContact = async (contactId, body) => {
   try {
-    const response = await ContactModel.findOneAndReplace({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, { new: true });
     return response;
   } catch (e) {
     console.error(e.message);
