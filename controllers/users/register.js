@@ -1,13 +1,19 @@
+const bcrypt = require('bcrypt');
+const { usersService } = require('../../service');
+const { httpError } = require('../../helpers');
+//const checkUserEmail = require('../../middlewares');
+
 const register = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'register' });
-    // const validationResult = schemaInsert.validate(req.body);
+    const { email, password } = req.body;
+    const saltRounds = 10;
 
-    // if (validationResult.error) {
-    //   return res.status(400).json({ message: validationResult.error.details[0].message });
-    // }
-    // const result = await contactsService.addContact(req.body);
-    // if (result) res.status(201).json(result);
+    const hash = await bcrypt.hash(password, saltRounds);
+    console.log(hash);
+
+    const newUser = await usersService.register({ email, password: hash });
+
+    res.status(201).json({ user: newUser });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

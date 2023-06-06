@@ -1,2 +1,3 @@
 const validateBody = require('./validateBody');
-module.exports = { validateBody };
+const checkUserEmail = require('./checkUserEmail');
+module.exports = { validateBody, checkUserEmail };

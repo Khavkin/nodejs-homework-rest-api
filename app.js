@@ -23,6 +23,7 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log('last point');
   const { status = 500 } = err;
   res.status(status).json({ message: err.message });
 });

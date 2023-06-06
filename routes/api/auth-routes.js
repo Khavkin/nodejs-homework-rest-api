@@ -1,13 +1,13 @@
 const express = require('express');
 const { usersControllers } = require('../../controllers');
-
-console.log(usersControllers);
+const { validateBody, checkUserEmail } = require('../../decorators');
+const { usersSchema } = require('../../schemas');
 
 const router = express.Router();
 
 router.post('/login', usersControllers.login);
 
-router.post('/register', usersControllers.register);
+router.post('/register', validateBody(usersSchema), checkUserEmail(), usersControllers.register);
 
 router.post('/logout', usersControllers.logout);
 
