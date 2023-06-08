@@ -1,15 +1,15 @@
+const { httpError } = require('../../helpers');
+const { getUserById, setToken } = require('../../service/users-db');
+
 const logout = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'logout' });
-    // const validationResult = schemaInsert.validate(req.body);
-
-    // if (validationResult.error) {
-    //   return res.status(400).json({ message: validationResult.error.details[0].message });
-    // }
-    // const result = await contactsService.addContact(req.body);
-    // if (result) res.status(201).json(result);
+    const { _id } = req.user;
+    const user = getUserById(_id);
+    if (!user) next(httpError(401));
+    setToken(_id, '');
+    res.status(204).json();
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(httpError(500, e.message));
   }
 };
 

@@ -14,4 +14,11 @@ const registerSchema = Joi.object({
   }),
 });
 
-module.exports = registerSchema;
+const subscriptionSchema = Joi.object({
+  subscription: Joi.string().required().valid('starter', 'pro', 'business').messages({
+    'string.valid': 'Subscription must be one of starter,pro or business',
+    'any.required': 'Subscription is required',
+  }),
+});
+
+module.exports = { registerSchema, subscriptionSchema };

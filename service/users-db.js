@@ -1,4 +1,4 @@
-const { UserModel } = require('./schemas');
+const UserModel = require('./schemas/users');
 
 const register = async body => {
   try {
@@ -20,9 +20,42 @@ const getUserByEmail = async email => {
   }
 };
 
+const getUserById = async id => {
+  try {
+    const user = await UserModel.findById(id);
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+
+const setToken = async (id, token) => {
+  try {
+    const user = await UserModel.findByIdAndUpdate(id, { token }, { new: true });
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+
+const setSubscription = async (id, subscription) => {
+  try {
+    const user = await UserModel.findByIdAndUpdate(id, { subscription }, { new: true });
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+
 const usersService = {
   getUserByEmail,
   register,
+  getUserById,
+  setToken,
+  setSubscription,
 };
 
 module.exports = usersService;

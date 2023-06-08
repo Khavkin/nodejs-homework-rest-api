@@ -38,7 +38,7 @@ const { usersService } = require('../service');
 const checkUserEmail = () => {
   const func = (req, res, next) => {
     const { email } = req.body;
-    console.log('check user email', email);
+
     if (email) {
       const user = usersService
         .getUserByEmail(email)

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
-const { handleMangooseError } = require('../../middlewares');
+const handleMangooseError = require('../../middlewares/handleMangooseError');
 const Schema = mongoose.Schema;
+
+console.log(handleMangooseError);
 
 const contact = new Schema(
   {

@@ -1,15 +1,14 @@
+const { httpError } = require('../../helpers');
+
 const current = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'current' });
-    // const validationResult = schemaInsert.validate(req.body);
+    const user = req.user;
 
-    // if (validationResult.error) {
-    //   return res.status(400).json({ message: validationResult.error.details[0].message });
-    // }
-    // const result = await contactsService.addContact(req.body);
-    // if (result) res.status(201).json(result);
+    if (!user) next(httpError(401));
+
+    res.status(200).json({ email: user.email, subscription: user.subscription });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(httpError(500, e.message));
   }
 };
 

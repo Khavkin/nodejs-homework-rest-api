@@ -1,4 +1,4 @@
-const { ContactModel } = require('./schemas/');
+const ContactModel = require('./schemas/contacts');
 
 /***
  * function getContacts
