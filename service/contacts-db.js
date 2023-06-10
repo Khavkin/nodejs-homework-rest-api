@@ -7,9 +7,15 @@ const ContactModel = require('./schemas/contacts');
  * @return array of contacts {id,name,email,phone,favorite}
  */
 
-const getContacts = async () => {
+const getContacts = async params => {
   try {
-    const data = await ContactModel.find();
+    const { owner, limit = 5, page = 1, query } = params;
+    const skip = (page - 1) * limit;
+
+    const data = await ContactModel.find({ owner, ...query }, null, {
+      skip,
+      limit,
+    }).populate({ path: 'owner', select: '_id email subscription' });
 
     return data || [];
   } catch (e) {
@@ -67,8 +73,8 @@ const removeContact = async contactId => {
  * @return contact = {id,name,email,phone,favorite}
  */
 const addContact = async body => {
-  const { name, email, phone, favorite } = body;
-  const newContact = { name, email, phone, favorite };
+  const { name, email, phone, favorite, owner } = body;
+  const newContact = { name, email, phone, favorite, owner };
 
   try {
     const data = await ContactModel.create(newContact);
@@ -93,7 +99,9 @@ const addContact = async body => {
  */
 const updateContact = async (contactId, body) => {
   try {
-    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, {
+      new: true,
+    }).populate({ path: 'owner', select: '_id email subscription' });
     return response;
   } catch (e) {
     console.error(e.message);
@@ -112,7 +120,9 @@ const updateContact = async (contactId, body) => {
  */
 const updateStatusContact = async (contactId, body) => {
   try {
-    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, {
+      new: true,
+    }).populate({ path: 'owner', select: '_id email subscription' });
 
     return response;
   } catch (e) {

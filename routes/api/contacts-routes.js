@@ -7,11 +7,13 @@ const {
   schemaUpdate,
 } = require('../../schemas/contactsSchema');
 const { validateBody } = require('../../decorators');
-const { checkId } = require('../../middlewares');
+const { checkId, auth } = require('../../middlewares');
 
 const router = express.Router();
 
 router.all('*', contactsControllers.checkAllowedMethods);
+
+router.use(auth);
 
 router.get('/', contactsControllers.getAllContacts);
 

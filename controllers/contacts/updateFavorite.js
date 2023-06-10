@@ -1,5 +1,3 @@
-const { isValidObjectId } = require('mongoose');
-const { schemaUpdate } = require('../../schemas/contactsSchema');
 const { contactsService } = require('../../service');
 const { httpError } = require('../../helpers');
 

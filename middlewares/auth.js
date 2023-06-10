@@ -18,10 +18,8 @@ const auth = async (req, res, next) => {
     }
 
     req.user = user;
-    console.log(req.user);
+   
     next();
-
-    //res.status(200).json({ message: 'current' });
   } catch (error) {
     console.log(error);
     next(httpError(401));

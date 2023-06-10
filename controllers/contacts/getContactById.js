@@ -1,4 +1,3 @@
-const { isValidObjectId } = require('mongoose');
 const { contactsService } = require('../../service');
 const { httpError } = require('../../helpers');
 

@@ -1,6 +1,5 @@
 const { httpError } = require('../../helpers');
 const { usersService } = require('../../service');
-console.log(usersService);
 
 const setSubscription = async (req, res, next) => {
   const { _id } = req.user;

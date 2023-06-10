@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const usersService = require('../../service/users-db');
+const { usersService } = require('../../service');
 const { httpError, createToken } = require('../../helpers');
 
 const login = async (req, res, next) => {

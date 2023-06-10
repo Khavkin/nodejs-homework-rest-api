@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const { usersService } = require('../../service');
 const { httpError } = require('../../helpers');
-//const checkUserEmail = require('../../middlewares');
 
 const register = async (req, res, next) => {
   try {
@@ -18,13 +17,8 @@ const register = async (req, res, next) => {
 
     res.status(201).json({ user: { email: responseEmail, subscription } });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(httpError(500, e.massage));
   }
 };
 
 module.exports = register;
-
-// {
-//  "email": "dui.diam@Donec6.com",
-//         "password":"Mama-145!"
-// }

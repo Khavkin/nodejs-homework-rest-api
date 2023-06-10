@@ -1,7 +1,4 @@
-const { isValidObjectId } = require('mongoose');
 const { contactsService } = require('../../service/');
-
-const { schemaUpdate } = require('../../schemas/contactsSchema');
 const { httpError } = require('../../helpers');
 
 const updateContact = async (req, res, next) => {
