@@ -1,4 +1,4 @@
-const Contact = require('./schemas/contacts');
+const ContactModel = require('./schemas/contacts');
 
 /***
  * function getContacts
@@ -7,9 +7,15 @@ const Contact = require('./schemas/contacts');
  * @return array of contacts {id,name,email,phone,favorite}
  */
 
-const getContacts = async () => {
+const getContacts = async params => {
   try {
-    const data = await Contact.find();
+    const { owner, limit = 5, page = 1, query } = params;
+    const skip = (page - 1) * limit;
+
+    const data = await ContactModel.find({ owner, ...query }, null, {
+      skip,
+      limit,
+    }).populate({ path: 'owner', select: '_id email subscription' });
 
     return data || [];
   } catch (e) {
@@ -27,7 +33,7 @@ const getContacts = async () => {
  */
 const getContactById = async contactId => {
   try {
-    const data = await Contact.findById(contactId);
+    const data = await ContactModel.findById(contactId);
     return data;
   } catch (e) {
     console.error(e.message);
@@ -42,10 +48,9 @@ const getContactById = async contactId => {
  * @param {contactId} - id for remove
  * @return return count of deleted contacts
  */
-
 const removeContact = async contactId => {
   try {
-    const data = await Contact.deleteOne({ _id: contactId });
+    const data = await ContactModel.deleteOne({ _id: contactId });
 
     return data.deletedCount;
   } catch (e) {
@@ -67,13 +72,12 @@ const removeContact = async contactId => {
  *
  * @return contact = {id,name,email,phone,favorite}
  */
-
 const addContact = async body => {
-  const { name, email, phone, favorite } = body;
-  const newContact = { name, email, phone, favorite };
+  const { name, email, phone, favorite, owner } = body;
+  const newContact = { name, email, phone, favorite, owner };
 
   try {
-    const data = await Contact.create(newContact);
+    const data = await ContactModel.create(newContact);
     return data;
   } catch (e) {
     console.error(e.message);
@@ -86,7 +90,7 @@ const addContact = async body => {
  * Update contact and return updated contact
  *
  @param body {
- * {name} (required) - contact name,
+ * {name}  - contact name,
  * {email} - contact email,
  * {phone} - contact phone,
  * {favorite} - is favorite contact,
@@ -95,7 +99,9 @@ const addContact = async body => {
  */
 const updateContact = async (contactId, body) => {
   try {
-    const response = await Contact.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, {
+      new: true,
+    }).populate({ path: 'owner', select: '_id email subscription' });
     return response;
   } catch (e) {
     console.error(e.message);
@@ -112,10 +118,11 @@ const updateContact = async (contactId, body) => {
  * }
  * @return contact = {id,name,email,phone,favorite} or throw error
  */
-
 const updateStatusContact = async (contactId, body) => {
   try {
-    const response = await Contact.findOneAndUpdate({ _id: contactId }, body, { new: true });
+    const response = await ContactModel.findOneAndUpdate({ _id: contactId }, body, {
+      new: true,
+    }).populate({ path: 'owner', select: '_id email subscription' });
 
     return response;
   } catch (e) {
