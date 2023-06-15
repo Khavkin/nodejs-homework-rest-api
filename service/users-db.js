@@ -99,6 +99,26 @@ const setSubscription = async (id, subscription) => {
     throw e;
   }
 };
+/***
+ * function setAvatar
+ * set user avatar
+ *
+ * @param
+ * {id} required - user _id,
+ * {avatar} required - user subscriptiongit co,
+ *
+ * @return user = {_id,email,subscription,password,token}
+ */
+const setAvatar = async (id, avatarURL) => {
+  try {
+    const user = await UserModel.findByIdAndUpdate(id, { avatarURL }, { new: true });
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+2;
 
 const usersService = {
   getUserByEmail,
@@ -106,6 +126,7 @@ const usersService = {
   getUserById,
   setToken,
   setSubscription,
+  setAvatar,
 };
 
 module.exports = usersService;
