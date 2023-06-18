@@ -10,13 +10,10 @@ const setAvatar = async (req, res, next) => {
   const { path: uploadName, filename } = req.file;
   const { _id } = req.user;
 
-  console.log(req.file);
-
   const destFileName = path.join(imageStorePath, filename);
   try {
-    console.log(uploadName, destFileName);
     const file = await jimp.read(uploadName);
-    file.resize(250, 250).write(uploadName);
+    await file.resize(250, 250).writeAsync(uploadName);
     await fs.rename(uploadName, destFileName);
   } catch (err) {
     await fs.unlink(uploadName);
@@ -25,7 +22,7 @@ const setAvatar = async (req, res, next) => {
 
   const avatarURL = 'avatars/' + filename;
   try {
-    const user = await usersService.setAvatar(_id, avatarURL);
+    await usersService.setAvatar(_id, avatarURL);
     res.status(200).json({ avatarURL });
   } catch (e) {
     next(httpError(500, e.message));

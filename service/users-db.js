@@ -118,7 +118,6 @@ const setAvatar = async (id, avatarURL) => {
     throw e;
   }
 };
-2;
 
 const usersService = {
   getUserByEmail,

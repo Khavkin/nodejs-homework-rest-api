@@ -19,7 +19,6 @@ describe('test login route', () => {
   });
 
   afterAll(async () => {
-    //await User.deleteMany({});
     await mongoose.connection.close();
     server.close();
   });
@@ -46,9 +45,6 @@ describe('test login route', () => {
     expect(body.token).toBe(user.token);
     expect(body.user.email).toBe(user.email);
     expect(body.user.subscription).toBe(user.subscription);
-
-    //console.log(body);
-    // console.log(statusCode);
   });
 
   test('login without password', async () => {
