@@ -10,7 +10,6 @@ const register = async (req, res, next) => {
     const avatarURL = gravatar.url(email, { protocol: 'http', s: '250' });
 
     const hash = await bcrypt.hash(password, saltRounds);
-    //console.log(avatarUrl);
 
     const { email: responseEmail, subscription } = await usersService.register({
       email,
