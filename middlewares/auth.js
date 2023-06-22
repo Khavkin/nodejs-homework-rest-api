@@ -4,10 +4,10 @@ const { getUserById } = require('../service/users-db');
 const auth = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  const [method, token] = authorization.split(' ');
+  const [method, token] = authorization?.split(' ');
 
   if (method !== 'Bearer') {
-    next(httpError(401));
+    return next(httpError(401));
   }
 
   try {
@@ -18,7 +18,7 @@ const auth = async (req, res, next) => {
     }
 
     req.user = user;
-   
+
     next();
   } catch (error) {
     console.log(error);
