@@ -15,6 +15,14 @@ const registerSchema = Joi.object({
   }),
 });
 
+const emailSchema = Joi.object({
+  email: Joi.string().required().email({ minDomainSegments: 2 }).pattern(emailPattern).messages({
+    'string.email': 'Invalid email',
+    'string.pattern.base': 'Invalid email',
+    'any.required': 'missing required field email',
+  }),
+});
+
 const subscriptionSchema = Joi.object({
   subscription: Joi.string().required().valid('starter', 'pro', 'business').messages({
     'string.valid': 'Subscription must be one of starter,pro or business',
@@ -22,4 +30,4 @@ const subscriptionSchema = Joi.object({
   }),
 });
 
-module.exports = { registerSchema, subscriptionSchema };
+module.exports = { registerSchema, subscriptionSchema, emailSchema };

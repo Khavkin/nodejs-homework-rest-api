@@ -15,6 +15,14 @@ router.post(
   usersControllers.register
 );
 
+router.get('/verify/:verificationToken', usersControllers.verify);
+
+router.post(
+  '/verify/',
+  validateBody(usersSchema.emailSchema),
+  usersControllers.sendVerificationToken
+);
+
 router.post('/logout', auth, usersControllers.logout);
 
 router.get('/current', auth, usersControllers.current);

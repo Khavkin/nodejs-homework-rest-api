@@ -119,6 +119,52 @@ const setAvatar = async (id, avatarURL) => {
   }
 };
 
+/***
+ * function getUserByVerificationToken
+ * Get user by verificationToken
+ *
+ * @param
+ * {verificationCode} required - code for verification user email,
+ *
+ * @return user = {_id,email,subscription,password,token,...}
+ */
+const getUserByVerificationToken = async verificationToken => {
+  try {
+    const user = await UserModel.findOne({ verificationToken });
+
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+
+/***
+ * function setVerificationStatus
+ * set verified flag to user
+ *
+ * @param
+ * {_id} required - user _id,
+ * {
+ * data : {
+ *   verify: true|false,
+ *   verificationToken: "code"|""
+ * }
+ * } required
+ *
+ * @return user = {_id,email,subscription,password,token,...}
+ */
+const setVerificationStatus = async (_id, data) => {
+  try {
+    const user = await UserModel.findByIdAndUpdate(_id, data, { new: true });
+
+    return user;
+  } catch (e) {
+    console.error(e.message);
+    throw e;
+  }
+};
+
 const usersService = {
   getUserByEmail,
   register,
@@ -126,6 +172,8 @@ const usersService = {
   setToken,
   setSubscription,
   setAvatar,
+  getUserByVerificationToken,
+  setVerificationStatus,
 };
 
 module.exports = usersService;
