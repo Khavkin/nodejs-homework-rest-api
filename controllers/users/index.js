@@ -4,5 +4,16 @@ const logout = require('./logout');
 const current = require('./current');
 const setSubscription = require('./setSubscription');
 const setAvatar = require('./setAvatar');
+const verify = require('./verify');
+const sendVerificationToken = require('./sendVerificationToken');
 
-module.exports = { login, register, logout, current, setSubscription, setAvatar };
+module.exports = {
+  login,
+  register,
+  logout,
+  current,
+  setSubscription,
+  setAvatar,
+  verify,
+  sendVerificationToken,
+};
